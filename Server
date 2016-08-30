@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<h4>FirstHomePage</h4>
+</head>
+<form action="" method="post">
+	<body>
+	<?php
+	$pageId = isset($_GET['id']) ? $_GET['id'] : 1;
+	?>
+    <a href="/index.php?id=<?= $m['id'] ?>"></a>
+    <?php
+    if(isset($_GET['id']) ){
+        $myData=["date"=>$_SERVER['REQUEST_TIME'],"page"=>$_SERVER['REQUEST_URI'],
+        "ref"=>$_SERVER['HTTP_REFERER']];
+        $f=fopen('data.txt','a');
+        fwrite($f,serialize($myData)."\n");
+        fclose($f);
+    }
+    $menu = array(["id" => 1, "url" => "/index.php", "name" => "INDEX"],
+        array("id" => 2, "url" => "/contacts.php", "name" => "CONTACTS"),
+        ["id" => 3, "url" => "/about.php", "name" => "ABOUT"],
+        ["id"=>4,"url"=>"/data.php","name"=>"DATA"]);
+    echo "<ul>";
+    foreach ($menu as $m): ?>
+        <li class="menu_item">
+
+            <a href="index.php?id=<?= $m['id'] ?>"><?= $m["name"] ?></a>
+        </li>
+    <?php endforeach ?>
+    </ul>
+    <?php
+    foreach ($menu as $m) {
+        if ($m['id'] == $pageId) {
+            $path = $m['url'];
+        }
+    };
+    if ($pageId == 1):?>
+        <p>You're on main</p>
+    <?php
+    elseif ($pageId == 2):?>
+        <h4>About</h4>
+        <?php
+        elseif ($pageId == 3):?>
+            <h4>Contacts</h4>
+            <?php
+            elseif ($pageId == 4):?>
+                <h4>Log</h4>
+<ul>
+                <?php
+                $f1=fopen("data.txt",'r');
+                $readData=(file("data.txt"));
+                $date=new DateTime();
+                foreach ($readData as $r){
+                    $str=unserialize($r);
+                    $date->setTimestamp($str["date"]);?>
+                    <li>
+                        <?= $date->format('d-m-Y H:i:s')." - ".$str["ref"]." -> ".
+                        $str["page"]?>
+                    </li>
+    <?php
+                }
+
+            else:
+                include($path);
+
+    endif ?>
+</ul>
+	<button type="submit">delete</button>
+	</body>
+</form>
+</html>

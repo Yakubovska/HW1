@@ -8,12 +8,12 @@
         function Copy(){
             var mysel=document.getElementById('copy');
             mysel.style.visibility="visible";
-            //alert("!!");
+           
         }
         function Rename(){
             var myselRen=document.getElementById('rename');
             myselRen.style.visibility="visible";
-            //alert("!!");
+          
         }
     </script>
 </head>
@@ -36,21 +36,7 @@
         //var_dump($_POST['copyPath']);
         copy($files[$selectOption],$_POST['copyPath']);
     }
-    /*  rename();
-      unlink($name);
-  mkdir();//make
-  rmdir();//remove
-  $dir =opendir();
-  closedir($dir);
-  readdir($dir);
-  []<=scandir($path);
-  glob('*.txt');
-  rename($oldname,$newname)
-    copy(from,to)
-    */
-
     $count=0;
-   // var_dump($files);
     ?>
 <select name="mySel" size="10" style="width: 150px">
     <?php
